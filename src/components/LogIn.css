@@ -1,0 +1,7 @@
+.LogIn{
+    background-image: url('../assets/1.jfif');
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat;
+    /* filter: blur(4px); */
+}
