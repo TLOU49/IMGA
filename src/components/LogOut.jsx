@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Logo from '../assets/Logo-white.png'
 
 const LogOut = () => {
   return (
@@ -7,8 +8,9 @@ const LogOut = () => {
         <div className="bg-gray-300 ml-[24rem] h-screen flex items-center">
 
         <div className="bg-white h-[17rem] shadow-sm shadow-black pt-2 text-center items-center flex flex-col  w-1/2 ml-[15rem]">
-      <h2 className="text-[2.5rem] font-bold text-iga_blue">Logo</h2>
-      <p className="border-t-[1px] border-iga_blue text-[13px] text-text_blue font-semibold mt-[3rem] py-3 w-5/6 ">You have successfully logged out</p>
+      {/* <h2 className="text-[2.5rem] font-bold text-iga_blue">Logo</h2> */}
+      <img src={Logo} width={150} alt="" />
+      <p className="border-t-[1px] border-iga_blue text-[13px] text-text_blue font-semibold mt-[1rem] py-3 w-5/6 ">You have successfully logged out</p>
 
       <span className="w-5/6">
       <Link to='/login'>

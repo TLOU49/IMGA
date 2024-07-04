@@ -1,10 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './LogIn.css';
 import { FaUser   } from "react-icons/fa";
 import { MdLock } from "react-icons/md";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const LogIn = () => {
+const LogIn = () => {   
+        const [username, setUsername] = useState('');
+        const [email, setEmail] = useState('');
+        const [password, setPassword] = useState('');
+        const [error, setError] = useState(null);
+      
+        const navigate = useNavigate();
+
+        const handleLogin = (e) => {
+
+          const data = {
+            username,
+            email,
+            password
+          };
+      
+          axios.post('http://localhost:5204/backend/account/login', data,{
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(response => {
+            console.log('Response:', response.data);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('userName', response.data.userName);
+            navigate('/home');
+          })
+          .catch(error => {
+            console.error('Error:', error);
+      
+            if(error.response){
+              setError(error.response.data);
+            }else {
+              setError('An error occurred. Please try again');
+            }
+          })
+        };
   return (
     <div className='LogIn w-screen h-screen flex justify-center opacity-95'>
 
@@ -17,44 +54,50 @@ const LogIn = () => {
 
             {/* INPUTS */}
             <div className='w-1/2 mt-[3rem] flex flex-col '>
-                {/* INPUT 1 */}
+                {/* INPUT USERNAME */}
             <span className="w-full">
                 <p className="text-[13px] font-bold py-1">Username</p>
 
                 <span className='flex flex-row w-full text-[11px] text-center text-gray-400  border py-2 rounded border-gray-400 pl-3'>
                 <FaUser   className='mt-[2px] ' />
-                <input type="text" placeholder='Enter Username' className='w-11/12 pl-2 outline-0'/>
+                <input type="text" placeholder='Enter Username' className='w-11/12 pl-2 outline-0' value={username} onChange={e => setUsername(e.target.value)}/>
                 </span>
             </span>
 
-            {/* INPUT 2 */}
+            {/* INPUT PASSWORD */}
             <span className="mt-[1.5rem] w-full">
                 <p className="text-[13px] py-1 font-bold">Password</p>
 
             <span className='flex text-center align-center text-gray-400  border py-2 px-2 rounded border-gray-400'>
                 <MdLock className='' />
-                <input type="text" placeholder='Enter Password' className='text-[11px] w-11/12 pl-2 outline-0' />
+                <input type="password" placeholder='Enter Password' className='text-[11px] w-11/12 pl-2 outline-0' value={password} onChange={e => setPassword(e.target.value)}/>
             </span>
             </span>
 
             {/* FORGOT PASSWORD */}
-            <Link to='/home'>
-            <p className="text-[10px] ml-auto font-semibold pt-1 ">Forgot Password?</p>
+            <span className="ml-auto">
+            <Link to='/forgot-password'>
+            <p className="text-[10px] font-semibold pt-1 ">Forgot Password?</p>
             </Link>
+            </span>
              
             </div>
 
             {/* BUTTON */}
-            <button className="bg-iga_blue w-1/2 rounded text-white align-center justify-center mt-[3rem] h-[2.7rem]"><Link to='/home'>
+            <button type='submit' className="bg-iga_blue w-1/2 rounded text-white align-center justify-center mt-[3rem] h-[2.7rem]" onClick={handleLogin}>
             <p>LogIn</p>
-            </Link>
             </button>
+            {error && (
+        <div className="text-red-500 mt-2">
+          {typeof error === 'string' ? error : <pre>{JSON.stringify(error, null, 2)}</pre>}
+        </div>
+      )}
 
-            <p className="text-[10px] mt-[2rem] mb-[3rem] font-semibold flex flex-row ">New to this platform? 
+            <span className="text-[10px] mt-[2rem] mb-[3rem] font-semibold flex flex-row ">New to this platform? 
                 <Link to='/register'>
                 <p className="px-1 font-black">Register</p> 
                 </Link>
-                Here</p>
+                Here</span>
             </span>
         </div>
     </div>
