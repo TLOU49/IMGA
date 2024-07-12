@@ -2,6 +2,10 @@ import React from 'react'
 import { IoFilter, IoSearch  } from "react-icons/io5";
 
 const SearchBar = () => {
+  const handleSearch = () => {
+    
+  };
+
   return (
     <div className='ml-[28rem] flex flex-row mt-[4rem] h-24'>
         <span className="flex flex-row  bg-gray-100 rounded text-gray-500 font-semibold pl-1 text-[15px] h-[2.5rem]">

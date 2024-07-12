@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BG from '../assets/1.jfif'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 export const ForgotPassword = () => {
@@ -13,21 +14,24 @@ export const ForgotPassword = () => {
 
     const navigate = useNavigate();
 
-    const handleResetPassword = (e) => {
+    const handleForgotPassword = (e) => {
         e.preventDefault();
 
         const newData = {
             email,
             newPassword
         }
-        axios.post('http://localhost:5204/backend/account/resetPassword', newData,{
+        axios.post('http://localhost:5204/backend/account/forgotPassword', newData,{
             headers: {
                 'Content-Type': 'application/json'
             }
         })
         .then(response => {
-            alert('Password has been reset successfully');
-            navigate('/');
+          console.log('Email has been sent successfully');
+          toast('Password reset link has been sent to your email.');
+          setTimeout(() => {
+            navigate('/')
+        }, 5000);
         })
         .catch(error => {
             console.error('Error:', error.response.data);
@@ -41,7 +45,7 @@ export const ForgotPassword = () => {
   return (
     <div className='bg-white text-text_blue flex flex-row'>
 
-        <form className="flex flex-col w-3/6 pl-[5rem] pt-[6rem]" onSubmit={handleResetPassword}>
+        <form className="flex flex-col w-3/6 pl-[5rem] pt-[6rem]" onSubmit={handleForgotPassword}>
             <h1 className="text-[2rem] font-bold">Reset Password</h1>
 
             {/*  */}
@@ -60,6 +64,7 @@ export const ForgotPassword = () => {
             {typeof error === 'string' ? error : JSON.stringify(error.response, null, 2)}
           </div>
         )}
+        <ToastContainer/>
         </form>
         <div className="p-10 ">
             <img src={BG} alt="" className="rounded-md" />

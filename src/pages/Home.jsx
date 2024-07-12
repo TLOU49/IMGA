@@ -6,7 +6,7 @@ import Pictures from '../Pictures';
 
 export const Home = () => {
   return (
-    <div>
+    <div className='font-bodyFont'>
         <Header/>
         <SearchBar/>
         <Pictures/>

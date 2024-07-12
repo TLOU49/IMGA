@@ -3,6 +3,9 @@ import { Header } from '../components/layouts/Header'
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const ImageUpload = () => {
     const [imageTitle, setImageTitle] = useState('');
@@ -17,6 +20,7 @@ const ImageUpload = () => {
         setImageURL(event.target.files[0]);
     };
 
+    
     const handleImageUpload = async (e) => {
         e.preventDefault();
 
@@ -34,42 +38,20 @@ const ImageUpload = () => {
                 }
             });
             console.log('Upload successful:', response.data);
+            toast('Upload successful!');
+            setTimeout(() => {
+                navigate('/home')
+            }, 5000);
         } catch (error) {
             console.error("Error uploading image", error);
+            toast('Error uploading image!')
         }
     };
-
-   
-  
-    // const data = {
-    //   imageTitle,
-    //   imageDescription,
-    //   categoryId
-    // };
-
-    // axios.post('http://localhost:5204/backend/image', data,{
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    // .then(response => {
-    //   console.log('Response:', response.data);
-    //   localStorage.setItem('token', response.data.token);
-    //   navigate('/home');
-    // })
-    // .catch(error => {
-    //   console.error('Error:', error);
-
-    //   if(error.response){
-    //     setError(error.response.data);
-    //   }else {
-    //     setError('An error occurred. Please try again');
-    //   }
-    // })
 
   return (
     <div className='w-screen'>
         <Header/>
+        <ToastContainer/>
 
         <div className="ml-[24rem] flex flex-col items-center my-[5rem]">
             <h2 className="text-center text-[1.6rem] font-semibold text-text_blue">Image Upload</h2>
@@ -91,7 +73,11 @@ const ImageUpload = () => {
 
             {/* categoryId input */}
             <span className="text-text_blue font-medium text-[13px] w-full mt-[1rem]">
-                <h3 className="font-bold">Category ID</h3>
+                <h3 className="font-bold">Category</h3>
+                <select name="" id="" className='border-[1px] mt-1 rounded w-full border-text_blue h-[2.5rem] outline-0 px-2'>
+                    <option value="Dean">Dean</option>
+                    <option value="Mabuela">Mabuela</option>
+                </select>
                 <input type='number' className="border-[1px] mt-1 rounded w-full border-text_blue h-[2.5rem] outline-0 px-2" onChange={e => setCategoryId(e.target.value)}/>
             </span>
 

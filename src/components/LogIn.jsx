@@ -43,41 +43,41 @@ const LogIn = () => {
           })
         };
   return (
-    <div className='LogIn w-screen h-screen flex justify-center opacity-95'>
+    <div className='LogIn w-screen h-screen flex justify-center opacity-95 font-bodyFont'>
 
-        <div className="flex flex-col text-text_blue bg-white w-1/2 h-3/4 mt-20 rounded-md place-items-center opacity-100">
+        <div className="flex flex-col text-text_blue bg-white w-1/2 sm:h-4/6 md:h-3/5 mt-36 rounded-md place-items-center opacity-100">
         <span className="flex flex-col w-full align-center justify-center place-items-center w-full">
-            <h3 className="text-[2.1rem] flex flex-col font-bold font-bodyFont text-center pt-[3rem]">
+            <h3 className="text-[2.2rem] flex flex-col font-bold  text-center pt-[3rem]">
                 <p>Image Gallery App</p>
-                <p>Log in</p>
+                <p>Login</p>
             </h3>
 
             {/* INPUTS */}
-            <div className='w-1/2 mt-[3rem] flex flex-col '>
+            <div className='w-1/2 mt-[2rem] flex flex-col '>
                 {/* INPUT USERNAME */}
             <span className="w-full">
-                <p className="text-[13px] font-bold py-1">Username</p>
+                <p className="text-[11px] font-extrabold py-1">Username</p>
 
-                <span className='flex flex-row w-full text-[11px] text-center text-gray-400  border py-2 rounded border-gray-400 pl-3'>
+                <span className='flex flex-row w-full text-[11px] text-center text-gray-500  border py-2 rounded border-gray-400 pl-3'>
                 <FaUser   className='mt-[2px] ' />
-                <input type="text" placeholder='Enter Username' className='w-11/12 pl-2 outline-0' value={username} onChange={e => setUsername(e.target.value)}/>
+                <input type="text" placeholder='Enter Username' className='w-11/12 pl-2 outline-0 text-[10px]' value={username} onChange={e => setUsername(e.target.value)}/>
                 </span>
             </span>
 
             {/* INPUT PASSWORD */}
             <span className="mt-[1.5rem] w-full">
-                <p className="text-[13px] py-1 font-bold">Password</p>
+                <p className="text-[11px] py-1 font-extrabold">Password</p>
 
-            <span className='flex text-center align-center text-gray-400  border py-2 px-2 rounded border-gray-400'>
+            <span className='flex text-center align-center text-gray-500  border py-2 px-2 rounded border-gray-400'>
                 <MdLock className='' />
-                <input type="password" placeholder='Enter Password' className='text-[11px] w-11/12 pl-2 outline-0' value={password} onChange={e => setPassword(e.target.value)}/>
+                <input type="password" placeholder='Enter Password' className='text-[10px] w-11/12 pl-2 outline-0' value={password} onChange={e => setPassword(e.target.value)}/>
             </span>
             </span>
 
             {/* FORGOT PASSWORD */}
             <span className="ml-auto">
             <Link to='/forgot-password'>
-            <p className="text-[10px] font-semibold pt-1 ">Forgot Password?</p>
+            <p className="text-[10px] font-semibold pt-2 ">Forgot Password?</p>
             </Link>
             </span>
              
@@ -85,7 +85,7 @@ const LogIn = () => {
 
             {/* BUTTON */}
             <button type='submit' className="bg-iga_blue w-1/2 rounded text-white align-center justify-center mt-[3rem] h-[2.7rem]" onClick={handleLogin}>
-            <p>LogIn</p>
+            <p className='text-[16px] font-medium'>Login</p>
             </button>
             {error && (
         <div className="text-red-500 mt-2">

@@ -15,10 +15,11 @@ export default {
           xl: "1280px",
         },
         colors:{
-          iga_blue: "#2187ab",
+          iga_blue: "rgb(33 135 171)",
           // text_blue: "#0f3c4c",
-          text_blue: "rgb(22 90 114)",
+          text_blue: "rgb(15 60 76)",
           activeBg: "#e9f5f9"
+          // rgb(15 60 76)
         },
         fontFamily:{
           bodyFont:['Poppins', 'sans-serif']
