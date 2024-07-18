@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import BG from '../assets/1.jfif'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 export const ResetPassword = () => {
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get('token');
     const [email, setEmail] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -11,30 +13,66 @@ export const ResetPassword = () => {
 
     const navigate = useNavigate();
 
-    const handleResetPassword = (e) => {
+    const handleResetPassword = async (e) => {
         e.preventDefault();
 
-        const newData = {
-            email,
-            newPassword
-        }
-        axios.post('http://localhost:5204/backend/account/resetPassword', newData,{
-            headers: {
+        // const newData = {
+        //     email,
+        //     newPassword
+        // }
+        // axios.post('http://localhost:5204/backend/account/resetPassword', newData,{
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        // .then(response => {
+        //     alert('Password has been reset successfully');
+        //     navigate('/');
+        // })
+        // .catch(error => {
+        //     console.error('Error:', error.response.data);
+        //     if(error.response){
+        //         setError(error.response.data);
+        //       }else {
+        //         setError('An error occurred. Please try again');
+        //       }
+        // })
+        // if (!newPassword) {
+        //     setError('Please enter a new password.');
+        //     return;
+        // }
+
+        // const response = await fetch('http://localhost:5204/backend/account/resetPassword', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({token, newPassword})
+        // });
+        if (!newPassword) {
+            setError('Please enter a new password.');
+            return;
+          }
+      
+          try {
+            const response = await axios.post('http://localhost:5204/backend/account/resetPassword', {
+              token,
+              newPassword
+            }, {
+              headers: {
                 'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            alert('Password has been reset successfully');
-            navigate('/');
-        })
-        .catch(error => {
-            console.error('Error:', error.response.data);
-            if(error.response){
-                setError(error.response.data);
-              }else {
-                setError('An error occurred. Please try again');
               }
-        })
+            });
+      
+            if (response.status === 200) {
+              setError(null);
+              navigate('/login');
+            } else {
+              setError('An error occurred. Please try again');
+            }
+          } catch (error) {
+            setError(error.response ? error.response.data : 'An error occurred. Please try again');
+          }
     }
 
   return (
@@ -45,10 +83,10 @@ export const ResetPassword = () => {
 
             {/*  */}
         <div className="flex flex-col mt-[2.5rem]">
-            <span className="">
+            {/* <span className="">
                 <p className="text-[14px] font-semibold ">Email Address</p>
                 <input type="text" placeholder='Enter Email' className='border-[1px] border-text_blue rounded text-[13px] h-[2rem] w-4/5 px-2 outline-0' value={email} onChange={e => setEmail(e.target.value)}/>
-            </span>
+            </span> */}
 
             <span className="">
                 <p className="text-[14px] font-semibold mt-4">Password</p>

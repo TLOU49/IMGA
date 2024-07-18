@@ -32,7 +32,7 @@ export const TaskBar = () => {
             {/* <h1 className="text-[2.5rem] font-semibold ">Logo</h1> */}
             <img src={Logo} alt="logo" width={150} className='ml-[4rem] mt-8' />
 
-            <div className="text-[1.2rem] font-semibold mt-20 ">
+            <div className="text-[1.3rem] font-semibold mt-20 ">
               <Link to='/home'>
             <span className={`flex flex-row  mr-3 h-[5rem] pt-7 rounded-md pl-3 ${handleBg('/home') }`}><GoHome className='mr-3 mt-1 font-bold'/><p className="">Home</p></span>
               </Link>

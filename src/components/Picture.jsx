@@ -19,12 +19,12 @@ const Picture = ({img, title, desc}) => {
   };
 
   return (
-      <div className="rounded flex w-[26rem] mr-[1.5rem] h-[18.4rem] text-white group overflow-hidden mt-4">
-        <img  src={img} alt="image" className="rounded-md w-[26rem] h-[18.4rem] absolute" />
+      <div className="rounded flex w-[28.8rem] mr-[1.5rem] h-[18.4rem] text-white group overflow-hidden mt-4">
+        <img  src={img} alt="image" className="rounded-md w-[28.8rem] h-[18.4rem] absolute" />
 
       <span className="relative flex flex-col pl-[1.7rem] top-[10rem] w-full bg-stone-500 h-[8.4rem] rounded-b-md opacity-85">
-        <h4 className="text-[17px] font-semibold">{title}</h4>
-        <p className="text-[13px] mt-2 font-normal">{desc}</p>
+        <h4 className="text-[16px] font-semibold pt-1">{title}</h4>
+        <p className="text-[13px] mt-2 font-light">{desc}</p>
 
         <div className="flex flex-row text-[13px] ml-auto mr-[2rem] cursor-pointer  lgl:translate-x-40 translate-x-40 group-hover:translate-x-0 transition-transform duration-300">
           <span className="flex hover-bg-yellow-200 hover:bg-yellow-400 rounded">

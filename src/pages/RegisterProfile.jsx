@@ -48,34 +48,33 @@ const RegisterProfile = () => {
   };
 
   return (
-    <div className='opening-div w-screen h-screen '>
+    <div className='opening-div w-screen h-screen font-bodyFont'>
       <div className="bg-white text-text_blue  sm:w-1/2 lg:w-1/4 h-full flex flex-col pl-[4rem] pt-[8rem]">
       <h2 className="text-[2.1rem] font-bold">Register Profile</h2>
-      <p className="text-[12px] font-medium mt-1 text-black">Lorem ipsum, dolor sit amet consectetur sit amet consectetur.</p>
+      <p className="text-[12px] font-normal mt-1 text-black">Sign up now to create your profile and connect with others.</p>
 
       <form onSubmit={handleRegister} className="mt-[3rem]">
       <span >
-        <p className="text-[14px] font-semibold" >Full Name</p>
-        <input type="text" placeholder='Enter Name' className='border-[1px] border-text_blue rounded text-[13px] h-[2rem] w-4/5 px-2 outline-0' id='username' value={username} onChange={(e) => setUsername(e.target.value)}/>
+        <p className="text-[12px] font-semibold" >Full Name</p>
+        <input type="text" placeholder='Enter Name' className='border-[1px] border-text_blue rounded text-[13px] h-[2.2rem] w-4/5 px-2 outline-0' id='username' value={username} onChange={(e) => setUsername(e.target.value)}/>
       </span>
 
       <span className="">
         <p className="text-[14px] font-semibold mt-4">Email Address</p>
-        <input type="text" placeholder='Enter Email' className='border-[1px] border-text_blue rounded text-[13px] h-[2rem] w-4/5 px-2 outline-0' value={email} onChange={e => setEmail(e.target.value)}/>
+        <input type="text" placeholder='Enter Email' className='border-[1px] border-text_blue rounded text-[13px] h-[2.2rem] w-4/5 px-2 outline-0' value={email} onChange={e => setEmail(e.target.value)}/>
       </span>
 
       <span className="">
         <p className="text-[14px] font-semibold mt-4">Password</p>
-        <input type="password" placeholder='Enter Password' className='border-[1px] border-text_blue rounded text-[13px] h-[2rem] w-4/5 px-2 outline-0' value={password} onChange={e => setPassword(e.target.value)}/>
+        <input type="password" placeholder='Enter Password' className='border-[1px] border-text_blue rounded text-[13px] h-[2.2rem] w-4/5 px-2 outline-0' value={password} onChange={e => setPassword(e.target.value)}/>
       </span>
 
       <span className="">
         <p className="text-[14px] font-semibold mt-4">Confirm Password</p>
-        <input type="password" placeholder='Enter Password' className='border-[1px] border-text_blue rounded text-[13px] h-[2rem] w-4/5 px-2 outline-0' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
-        <input type="text" placeholder='Enter Password' className='border-[1px] border-text_blue rounded text-[13px] h-[2rem] w-4/5 px-2 outline-0' value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)}/>
+        <input type="password" placeholder='Enter Password' className='border-[1px] border-text_blue rounded text-[13px] h-[2.2rem] w-4/5 px-2 outline-0' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
       </span>
 
-      <button type='submit' className="bg-iga_blue w-4/5 h-[2.5rem] text-blue-100 font-medium text-[15px] mt-10 rounded" >Register</button>
+      <button type='submit' className="bg-iga_blue w-4/5 h-[2.8rem] text-blue-100 font-medium text-[16px] mt-10 rounded" >Register</button>
       </form>
       {error && (
           <div className="text-red-500 mt-2">

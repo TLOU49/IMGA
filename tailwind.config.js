@@ -18,7 +18,8 @@ export default {
           iga_blue: "rgb(33 135 171)",
           // text_blue: "#0f3c4c",
           text_blue: "rgb(15 60 76)",
-          activeBg: "#e9f5f9"
+          activeBg: "#e9f5f9",
+          filterBG: "#E9F5F9"
           // rgb(15 60 76)
         },
         fontFamily:{
