@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Header } from '../components/layouts/Header'
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useDropzone} from 'react-dropzone'
 
 
 const ImageUpload = () => {
@@ -17,6 +18,7 @@ const ImageUpload = () => {
     const navigate = useNavigate();
   
     const handleFileChange = (event) => {
+        console.log(event.target.files[0]);
         setImageURL(event.target.files[0]);
     };
 
@@ -48,6 +50,17 @@ const ImageUpload = () => {
         }
     };
 
+    // Drag & Drop
+    const onDrop = useCallback((acceptedFiles) => {
+        if (acceptedFiles.length > 0) {
+            console.log(acceptedFiles[0]); 
+            setImageURL(acceptedFiles[0]);
+        }
+    }, []);
+
+    
+    const {getRootProps, getInputProps } = useDropzone({onDrop});
+   
   return (
     <div className='w-screen'>
         <Header/>
@@ -82,18 +95,19 @@ const ImageUpload = () => {
             </span>
 
             {/* Upload Div */}
-            <span className="border-dashed border-2 flex flex-col items-center text-center text-iga_blue border-text_blue w-full mt-[2rem] rounded h-[18rem] bg-blue-100">
+            <span {...getRootProps()} className="border-dashed border-2 flex flex-col items-center text-center text-iga_blue border-text_blue w-full mt-[2rem] rounded h-[18rem] bg-blue-100">
             
                 <IoCloudUploadOutline className='text-[7rem] mt-[2rem] '/>
             
                 <p className="text-[13px] font-medium mt-[1.7rem]">Drag and Drop Files</p>
                 <p className="text-[12px]">or</p>
 
-                <input type="file" name="" id="files" className='hidden' multiple onChange={handleFileChange} />
+                <input type="file" name="" id="files" className='hidden' multiple onChange={handleFileChange} {...getInputProps()} />
                 <label htmlFor="files">
 
                 <p className='text-white bg-iga_blue mt-3 w-[7rem] h-[2rem] rounded-md text-[13px] pt-1 cursor-pointer'>Upload</p>
                 </label>
+                {imageURL && <p className="text-[13px] text-gray-500 font-medium my-[.5rem]">{imageURL.name}</p>}
             </span>
 
             {error && <p className="text-red-500 mt-2">{error}</p>}

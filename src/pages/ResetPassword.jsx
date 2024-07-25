@@ -1,83 +1,131 @@
 import React, { useState } from 'react'
 import BG from '../assets/1.jfif'
 import axios from 'axios'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 export const ResetPassword = () => {
-    const [searchParams] = useSearchParams();
-    const token = searchParams.get('token');
-    const [email, setEmail] = useState('')
-    const [newPassword, setNewPassword] = useState('')
+
+  // const [searchParams] = useSearchParams();
+  const query = new URLSearchParams(useLocation().search);
+  const token = query.get('token');
+    const userId = query.get('userId')
+    const [email, setEmail] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [message, setMessage] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('')
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
 
-    const handleResetPassword = async (e) => {
-        e.preventDefault();
+    // const handleResetPassword = async (e) => {
+    //     e.preventDefault();
 
-        // const newData = {
-        //     email,
-        //     newPassword
-        // }
-        // axios.post('http://localhost:5204/backend/account/resetPassword', newData,{
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        // .then(response => {
-        //     alert('Password has been reset successfully');
-        //     navigate('/');
-        // })
-        // .catch(error => {
-        //     console.error('Error:', error.response.data);
-        //     if(error.response){
-        //         setError(error.response.data);
-        //       }else {
-        //         setError('An error occurred. Please try again');
-        //       }
-        // })
-        // if (!newPassword) {
-        //     setError('Please enter a new password.');
-        //     return;
-        // }
+    //     // const newData = {
+    //     //     email,
+    //     //     newPassword
+    //     // }
+    //     // axios.post('http://localhost:5204/backend/account/resetPassword', newData,{
+    //     //     headers: {
+    //     //         'Content-Type': 'application/json'
+    //     //     }
+    //     // })
+    //     // .then(response => {
+    //     //     alert('Password has been reset successfully');
+    //     //     navigate('/');
+    //     // })
+    //     // .catch(error => {
+    //     //     console.error('Error:', error.response.data);
+    //     //     if(error.response){
+    //     //         setError(error.response.data);
+    //     //       }else {
+    //     //         setError('An error occurred. Please try again');
+    //     //       }
+    //     // })
+    //     // if (!newPassword) {
+    //     //     setError('Please enter a new password.');
+    //     //     return;
+    //     // }
 
-        // const response = await fetch('http://localhost:5204/backend/account/resetPassword', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({token, newPassword})
-        // });
-        if (!newPassword) {
-            setError('Please enter a new password.');
-            return;
-          }
+    //     // const response = await fetch('http://localhost:5204/backend/account/resetPassword', {
+    //     //     method: 'POST',
+    //     //     headers: {
+    //     //         'Content-Type': 'application/json'
+    //     //     },
+    //     //     body: JSON.stringify({token, newPassword})
+    //     // });
+    //     if (!newPassword) {
+    //         setError('Please enter a new password.');
+    //         return;
+    //       }
       
-          try {
-            const response = await axios.post('http://localhost:5204/backend/account/resetPassword', {
+    //       try {
+    //         const response = await axios.post('http://localhost:5204/backend/account/resetPassword', {
+    //           token,
+    //           newPassword
+    //         }, {
+    //           headers: {
+    //             'Content-Type': 'application/json'
+    //           }
+    //         });
+      
+    //         if (response.status === 200) {
+    //           setError(null);
+    //           navigate('/login');
+    //         } else {
+    //           setError('An error occurred. Please try again');
+    //         }
+    //       } catch (error) {
+    //         setError(error.response ? error.response.data : 'An error occurred. Please try again');
+    //       }
+    // }
+
+    const handleResetPassword =  (e) => {
+      e.preventDefault();
+      
+      if (newPassword !== confirmPassword) {
+          setMessage("Passwords do not match");
+          return;
+      }
+
+      const newData = {
               token,
-              newPassword
-            }, {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            });
-      
-            if (response.status === 200) {
-              setError(null);
-              navigate('/login');
-            } else {
-              setError('An error occurred. Please try again');
-            }
-          } catch (error) {
-            setError(error.response ? error.response.data : 'An error occurred. Please try again');
-          }
-    }
+              newPassword,
+              userId
+      }
+
+      axios.post('http://localhost:5204/backend/account/resetPassword', newData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        console.log(userId);
+      })
+      .catch(error =>{
+        console.log(decodeURIComponent(token));
+        console.error(error.response.data);
+        if(error.response){
+          setError(error.response.data);
+        }else {
+          setError('An error occurred. Please try again');
+        }
+      })
+      // try {
+      //     const response = axios.post('http://localhost:5204/backend/account/resetPassword', {
+      //         token,
+      //         newPassword,
+      //         userId
+      //     });
+      //     console.log(response.data);
+      //     setMessage(response.data);
+      // } catch (error) {
+      //     setMessage(error.response.data);
+      // }
+  };
 
   return (
     <div className='bg-white text-text_blue flex flex-row'>
-
+      {/* {message && <p>{message}</p>} */}
         <form className="flex flex-col w-3/6 pl-[5rem] pt-[6rem]" onSubmit={handleResetPassword}>
             <h1 className="text-[2rem] font-bold">Reset Password</h1>
 

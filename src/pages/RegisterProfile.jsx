@@ -78,7 +78,7 @@ const RegisterProfile = () => {
       </form>
       {error && (
           <div className="text-red-500 mt-2">
-            {typeof error === 'string' ? error : JSON.stringify(error, null, 2)}
+            {typeof error === 'string' ? error.response : JSON.stringify(error.errors.Email, null, 2)}
           </div>
         )}
 
