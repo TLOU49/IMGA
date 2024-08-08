@@ -34,10 +34,12 @@ const RegisterProfile = () => {
     })
     .then(response => {
       console.log('Response:', response.data);
-      navigate('/');
+      setTimeout(() => {
+        navigate('/')
+    }, 3000);
     })
     .catch(error => {
-      console.error('Error:', error);
+      console.error('Error:', error.response.data);
 
       if(error.response){
         setError(error.response.data);
@@ -48,8 +50,8 @@ const RegisterProfile = () => {
   };
 
   return (
-    <div className='opening-div w-screen h-screen font-bodyFont'>
-      <div className="bg-white text-text_blue  sm:w-1/2 lg:w-1/4 h-full flex flex-col pl-[4rem] pt-[8rem]">
+    <div className='opening-div w-screen h-screen font-bodyFont m-6 '>
+      <div className="bg-white text-text_blue  sm:w-1/2 lg:w-[35rem] h-full flex flex-col pl-[4rem] pt-[8rem]">
       <h2 className="text-[2.1rem] font-bold">Register Profile</h2>
       <p className="text-[12px] font-normal mt-1 text-black">Sign up now to create your profile and connect with others.</p>
 
@@ -78,10 +80,10 @@ const RegisterProfile = () => {
       </form>
       {error && (
           <div className="text-red-500 mt-2">
-            {typeof error === 'string' ? error.response : JSON.stringify(error.errors.Email, null, 2)}
+            {typeof error === 'string' ? error.response : JSON.stringify(error, null, 2)}
           </div>
         )}
-
+        {/* {error && <p className="text-red-500 mt-2">{error}</p>} */}
       <p className="text-center mr-[3rem] w-3/4 mt-3 text-black text-[13px]">or</p>
 
       <span className="flex flex-row shadow-md text-center items-center py-2 justify-center shadow-gray-400 w-4/5 mt-1">

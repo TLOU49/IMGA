@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react'
-import { Header } from '../components/layouts/Header'
+import React, { useCallback, useEffect, useState } from 'react'
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useDropzone} from 'react-dropzone'
+import { api } from '../Context/useAuth';
 
 
 const ImageUpload = () => {
@@ -14,6 +14,9 @@ const ImageUpload = () => {
     const [imageURL, setImageURL] = useState(null);
     const [categoryId, setCategoryId] = useState('');
     const [error, setError] = useState(null);
+    const [categories, setCategories] = useState([]);
+
+    const userId = localStorage.getItem('userId') 
   
     const navigate = useNavigate();
   
@@ -22,7 +25,30 @@ const ImageUpload = () => {
         setImageURL(event.target.files[0]);
     };
 
+    const fetchCategory = async ()=> {
+        try {
+            const category = await axios.get(`${api}/category`, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            setCategories(category.data);
+            console.log(category.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+      fetchCategory();
+    }, [])
+
+    const handleCategoryChange = (e) => {
+        setCategoryId(e.target.value)
+    };
     
+
     const handleImageUpload = async (e) => {
         e.preventDefault();
 
@@ -31,9 +57,11 @@ const ImageUpload = () => {
         formData.append('imageDescription', imageDescription);
         formData.append('imageURL', imageURL);
         formData.append('categoryId', categoryId);
+        formData.append('userId', userId);
+
 
         try {
-            const response = await axios.post('http://localhost:5204/backend/image', formData, {
+            const response = await axios.post(`${api}/image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -45,8 +73,15 @@ const ImageUpload = () => {
                 navigate('/home')
             }, 5000);
         } catch (error) {
+            
+        if(error.response){
+            setError(error.response.data);
+              console.log(error.response.data);
+          }else {
+            setError('An error occurred. Please try again');
+          }
             console.error("Error uploading image", error);
-            toast('Error uploading image!')
+            toast(error.response.data)
         }
     };
 
@@ -58,41 +93,48 @@ const ImageUpload = () => {
         }
     }, []);
 
-    
     const {getRootProps, getInputProps } = useDropzone({onDrop});
    
   return (
-    <div className='w-screen'>
-        <Header/>
+    <div className='h-auto ml-[18rem] w-4/5'>
         <ToastContainer/>
 
-        <div className="ml-[24rem] flex flex-col items-center my-[5rem]">
-            <h2 className="text-center text-[1.6rem] font-semibold text-text_blue">Image Upload</h2>
+        <div className="flex flex-col items-center my-[5rem] ">
+            <h2 className="text-center text-[1.6rem] mt-[-2rem] mb-[3rem] font-semibold text-text_blue" onClick={fetchCategory}>Image Upload</h2>
 
             <form action="" className='w-1/2' onSubmit={handleImageUpload}>
 
-            
             {/* imageTitle Input */}
-            <span className="mt-[4.5rem] text-text_blue font-medium text-[13px] w-full ">
+            <span className="text-text_blue font-medium text-[13px] w-full ">
                 <h3 className="font-bold">Image Title</h3>
                 <input type="text" className="border-[1px] mt-1 rounded w-full border-text_blue h-[2.5rem] outline-0 px-2" onChange={e => setImageTitle(e.target.value)} required/>
             </span>
 
+            {/* categoryId input */}
+            <span className="text-text_blue font-medium text-[13px] w-full ">
+                <h3 className="font-bold mt-[1rem]">Category</h3>
+                <select name="category" id="category-select" value={categoryId} onChange={handleCategoryChange} className='border-[1px] mt-1 rounded w-full border-text_blue h-[2.5rem] outline-0 px-2 cursor-pointer'>
+                  <option value="" disabled>Select a Category</option>
+                        {
+                            categories.map(
+                                category => (
+                                    <option key={category.id} value={category.id} >
+                                        {category.categoryName}
+                                    </option>
+                                )
+                            )
+                        }
+                    
+                   
+                </select>
+            </span>
+
             {/* imageDescription input */}
-            <span className="text-text_blue font-medium text-[13px] w-full mt-[1rem]">
-                <h3 className="font-bold">Image Description</h3>
+            <span className="text-text_blue font-medium text-[13px] w-full ">
+                <h3 className="font-bold mt-[1rem]">Image Description</h3>
                 <textarea name="" id="" className='border-[1px] w-full mt-2 border-text_blue rounded p-2 outline-0' onChange={e => setImageDescription(e.target.value)} required/>
             </span>
 
-            {/* categoryId input */}
-            <span className="text-text_blue font-medium text-[13px] w-full mt-[1rem]">
-                <h3 className="font-bold">Category</h3>
-                <select name="" id="" className='border-[1px] mt-1 rounded w-full border-text_blue h-[2.5rem] outline-0 px-2'>
-                    <option value="Dean">Dean</option>
-                    <option value="Mabuela">Mabuela</option>
-                </select>
-                <input type='number' className="border-[1px] mt-1 rounded w-full border-text_blue h-[2.5rem] outline-0 px-2" onChange={e => setCategoryId(e.target.value)}/>
-            </span>
 
             {/* Upload Div */}
             <span {...getRootProps()} className="border-dashed border-2 flex flex-col items-center text-center text-iga_blue border-text_blue w-full mt-[2rem] rounded h-[18rem] bg-blue-100">
