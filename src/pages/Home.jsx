@@ -8,9 +8,10 @@ export const Home = () => {
   const [ isModalOpen, setIsModalOpen ] = useState(false);
   const [ isPictureVisible, setIsPictureVisible ] = useState(true);
   const [selectedPicture, setSelectedPicture] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Image Modal/ Viewing Image
-const handleImageModal = (picture)=> {
+  const handleImageModal = (picture)=> {
   setIsModalOpen(true);
   setIsPictureVisible(false);
   setSelectedPicture(picture);
@@ -18,9 +19,9 @@ const handleImageModal = (picture)=> {
 
   return (
     <div className='font-bodyFont w-full '>
-        <SearchBar />
+        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
         {
-          isPictureVisible && <Pictures handleImageModal={handleImageModal}/>
+          isPictureVisible && <Pictures searchQuery={searchQuery} handleImageModal={handleImageModal}/>
         }
         {
             isModalOpen && <ImageModal setIsModalOpen={setIsModalOpen} setIsPictureVisible={setIsPictureVisible} selectedPicture={selectedPicture}/> 

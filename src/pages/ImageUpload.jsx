@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -6,7 +6,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useDropzone} from 'react-dropzone'
 import { api } from '../Context/useAuth';
-
+import EmojiPicker from 'emoji-picker-react';
+import { BsEmojiLaughing } from "react-icons/bs";
 
 const ImageUpload = () => {
     const [imageTitle, setImageTitle] = useState('');
@@ -15,6 +16,10 @@ const ImageUpload = () => {
     const [categoryId, setCategoryId] = useState('');
     const [error, setError] = useState(null);
     const [categories, setCategories] = useState([]);
+    const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+    const [isIconVisible, setIsIconVisible] = useState(true);
+    const emojiPickerRef = useRef(null);
+
 
     const userId = localStorage.getItem('userId') 
   
@@ -94,7 +99,35 @@ const ImageUpload = () => {
     }, []);
 
     const {getRootProps, getInputProps } = useDropzone({onDrop});
-   
+
+    // EmojiPicker
+    const toggleDropDown = ()=>{
+        setIsEmojiPickerOpen((prevIsOpen)=> !prevIsOpen);
+        setIsIconVisible(false);
+    };
+
+    const handleClickOutside  = (event)=> {
+        if(emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)){
+            setIsEmojiPickerOpen(false);
+            setIsIconVisible(true);
+        }
+    }
+
+    useEffect(() => {
+      document.addEventListener('mousedown', handleClickOutside )
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside )
+      }
+    }, [])
+    
+   const handleEmojiClick = (emojiData)=> {
+    console.log(emojiData);
+    
+    const emoji = emojiData.emoji;
+    setImageTitle((prevTitle) => prevTitle + emojiData.emoji);
+    // console.log(imageTitle, emoji);
+   };
+
   return (
     <div className='h-auto ml-[18rem] w-4/5'>
         <ToastContainer/>
@@ -107,7 +140,17 @@ const ImageUpload = () => {
             {/* imageTitle Input */}
             <span className="text-text_blue font-medium text-[13px] w-full ">
                 <h3 className="font-bold">Image Title</h3>
-                <input type="text" className="border-[1px] mt-1 rounded w-full border-text_blue h-[2.5rem] outline-0 px-2" onChange={e => setImageTitle(e.target.value)} required/>
+                <span className="border-[1px] mt-1 rounded w-full border-text_blue h-[2.5rem] px-2 flex flex-row">
+                <input type="text" className="border-none w-full outline-0" onChange={e => setImageTitle(e.target.value)} required/>
+                {
+                    isIconVisible && <p className="ml-auto text-[16px] mt-3 cursor-pointer" onClick={toggleDropDown}><BsEmojiLaughing  /></p>
+                }
+                {
+                    isEmojiPickerOpen && ( <div ref={emojiPickerRef}>
+                        <EmojiPicker onEmojiClick={handleEmojiClick} width={350}/>
+                    </div> )
+                }
+                </span>
             </span>
 
             {/* categoryId input */}
@@ -123,16 +166,17 @@ const ImageUpload = () => {
                                     </option>
                                 )
                             )
-                        }
-                    
-                   
+                        }   
                 </select>
             </span>
 
             {/* imageDescription input */}
             <span className="text-text_blue font-medium text-[13px] w-full ">
                 <h3 className="font-bold mt-[1rem]">Image Description</h3>
-                <textarea name="" id="" className='border-[1px] w-full mt-2 border-text_blue rounded p-2 outline-0' onChange={e => setImageDescription(e.target.value)} required/>
+                <span className="flex flex-row border-[1px] w-full mt-2 border-text_blue rounded p-2">
+                <textarea name="" id="" className='outline-0 w-full' onChange={e => setImageDescription(e.target.value)} required/>
+                {/* <p className="ml-auto text-[16px]"><BsEmojiLaughing  /></p> */}
+                </span>
             </span>
 
 
