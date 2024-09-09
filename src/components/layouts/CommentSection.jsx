@@ -24,7 +24,7 @@ export const CommentSection = ({pictureId}) => {
             }
           });    
           const imageComments = response.data.filter(comment => comment.imageId === pictureId);
-          setComments(imageComments);
+          setComments(imageComments);       
 
         } catch (error) {
           console.error('Error fetching comment:', error);
@@ -33,7 +33,7 @@ export const CommentSection = ({pictureId}) => {
       };
 
   return (
-    <div className="ml-[35rem] w-fit max-h-[18rem] bg-white rounded text-gray-500 mt-[-2rem] shadow-md shadow-gray-500 overflow-auto">
+    <div className="absolute right-0 w-[18rem] max-h-[18rem] bg-white rounded text-gray-500 shadow-md shadow-gray-500 overflow-auto">
         {
             comments.map(comment=>
                 <span className="flex h-fit flex-col border-b-2 px-6 py-4" key={comment.id}>

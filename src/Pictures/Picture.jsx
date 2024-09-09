@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { FaRegHeart  } from "react-icons/fa";
+import { FaHeart, FaRegHeart  } from "react-icons/fa";
 import { FcLike  } from "react-icons/fc";
 import { BiComment } from "react-icons/bi";
 import CreateComment from '../components/CreateComment';
 import { LuMoreVertical } from "react-icons/lu";
 import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
+import { api } from '../Context/useAuth';
 
 
 const Picture = ({img, title, id, handleImageModal, handleEdit}) => {
@@ -14,12 +15,11 @@ const Picture = ({img, title, id, handleImageModal, handleEdit}) => {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const isLibrary = location.pathname === '/library';
   const [isLibraryModal, setIsLibraryModal] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [liked, setLiked] = useState(false);
+  const [likeID, setLikeID] = useState(2006);
   
-  const handleLike = ()=>{
-    setLike(!like);
-  };
-
-
   //deleting image
   const deleteImage = async () => {
     try {
@@ -53,15 +53,41 @@ const handleDelete = async () => {
   }
 };
 
+const handleImageLike = async (e)=> {
+  const data = {
+    liked: !liked,
+    imageId:id
+  };
+
+  const token = localStorage.getItem('token');
+  try {
+    const response = await axios.post(`${api}/like/${id}`, data,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    console.log(response.data);
+    setLiked(response.data.liked);
+    
+  } catch (error) {
+    console.error('Error updating like status:', error);
+    setError(error);
+  }
+};
 
   return (
     <div className='flex flex-col' >
-      <div className="rounded flex w-[28.8rem] mr-[1.5rem] h-[17.5rem] text-white group overflow-hidden mt-2 " onClick={handleImageModal}>
-        <img  src={img} alt="image" className="rounded-md w-[28.8rem] h-[17rem] absolute cursor-pointer" />
+      <div className="rounded flex w-[20rem] md:w-[28.8rem] mr-[1.5rem] h-[17.5rem] text-white group overflow-hidden mt-2 " onClick={handleImageModal}>
+        <img  src={img} alt="image" className="rounded-md w-[16rem] md:w-[28.8rem] h-[17rem] absolute cursor-pointer" />
      <h4 className="relative text-[16px] pl-[1rem] font-semibold top-[15rem]">{title}</h4>
       </div>
       <span className='flex px-2 text-[1.3rem] cursor-pointer' >
-          {like? <FaRegHeart  className='mt-1' onClick={handleLike}/>: <FcLike  className='text-[1.5rem] w-fit' onClick={handleLike}/>}
+          {liked == true?
+          <FcLike className='mt-1' onClick={handleImageLike}/> :
+          <FaRegHeart  className='text-[1.5rem] w-fit' onClick={handleImageLike}/>
+            }
+
           <BiComment  className='ml-2 mt-1'
           onClick={()=> {setIsCommentOpen(true)}}
           />
@@ -74,7 +100,7 @@ const handleDelete = async () => {
       
           {
             isLibraryModal && (
-              <div className="bg-white text-[18px] w-[3rem] text-gray-500 h-[4rem] flex flex-col items-center  rounded text-black font-semibold ml-auto mr-[3.6rem] mt-[-1.2rem] shadow-md shadow-gray-500">
+              <div className="bg-white text-[18px] w-[3rem] text-gray-500 h-[4rem] flex flex-col items-center  rounded text-black font-semibold ml-auto mr-[3.6rem] mt-[-1.2rem] shadow-md shadow-gray-500" onClick={()=> setIsLibraryModal(false)}>
             <FaRegTrashAlt className='mt-1  cursor-pointer hover:text-red-600' onClick={()=> handleDelete(image.id)}/>
             <FaEdit className='mt-1 pt-1 ml-1 border-t-2 border-gray-600 text-[23px] hover:text-[26px] cursor-pointer' onClick={handleEdit}/>
           </div>

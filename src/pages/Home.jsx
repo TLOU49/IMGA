@@ -9,6 +9,7 @@ export const Home = () => {
   const [ isPictureVisible, setIsPictureVisible ] = useState(true);
   const [selectedPicture, setSelectedPicture] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isDescending, setIsDescending] = useState(true);
 
   // Image Modal/ Viewing Image
   const handleImageModal = (picture)=> {
@@ -18,10 +19,10 @@ export const Home = () => {
 };
 
   return (
-    <div className='font-bodyFont w-full '>
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+    <div className='font-bodyFont w-screen '>
+        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} isDescending={isDescending} setIsDescending={setIsDescending}/>
         {
-          isPictureVisible && <Pictures searchQuery={searchQuery} handleImageModal={handleImageModal}/>
+          isPictureVisible && <Pictures searchQuery={searchQuery} handleImageModal={handleImageModal} isDescending={isDescending} />
         }
         {
             isModalOpen && <ImageModal setIsModalOpen={setIsModalOpen} setIsPictureVisible={setIsPictureVisible} selectedPicture={selectedPicture}/> 

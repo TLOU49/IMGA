@@ -14,9 +14,10 @@ import { ResetPassword } from './pages/ResetPassword.jsx'
 import { ForgotPassword } from './pages/ForgotPassword.jsx'
 import MyLIbrary from './pages/MyLIbrary.jsx'
 import { TwoFactorAuthPage } from './pages/TwoFactorAuthPage.jsx'
+import { LoggedInResetPassword } from './pages/LoggedInResetPassword.jsx'
 
 const isAuthenticated = !!localStorage.getItem('token');
-
+// https://7hd7cmzs-5173.euw.devtunnels.ms/
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
     <Route path='/register' element={<RegisterProfile/>}/>
     <Route path='/reset-password' element={<ResetPassword/>}/>
     <Route path='/forgot-password' element={<ForgotPassword/>}/>
+    <Route path='/user-reset' element={<LoggedInResetPassword/>}/>
 
     </>
   )

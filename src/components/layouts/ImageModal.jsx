@@ -23,9 +23,9 @@ export const ImageModal = ({ setIsModalOpen, setIsPictureVisible, selectedPictur
   
   return (
 
-    <div className="absolute modalDiv top-[14rem] w-10/12 h-2/3 font-bodyFont " key={selectedPicture.id}>
+    <div className="absolute flex flex-col modalDiv top-[14rem] ml-[28rem] w-3/4 h-2/3 font-bodyFont" key={selectedPicture.id}>
         
-    <div className='relative  h-full w-5/6 rounded-md ml-[28rem] flex'>
+    <div className='relative h-full w-4/5 rounded-md flex'>
     <IoCloseSharp className='absolute right-0 m-2 text-[1.6rem] cursor-pointer bg-gray-100 rounded-full' onClick={handleCloseModal}/>
         <img className='w-full h-full rounded-md' src={selectedPicture.imageURL} alt="" />
         <span className="absolute bottom-0 bg-stone-500	h-1/4 w-full rounded-b-md opacity-75 flex flex-col py-[1.2rem] px-[2rem] text-white font-medium">
@@ -34,12 +34,15 @@ export const ImageModal = ({ setIsModalOpen, setIsPictureVisible, selectedPictur
         </span>
 
     </div>
-    <span className='mt-2 flex px-2 text-[1.3rem] cursor-pointer ml-[28rem]' >
+    <span className='mt-2 flex px-2 text-[1.3rem] cursor-pointer' >
           {like? <FaRegHeart  className='mt-1' onClick={handleLike}/>: <FcLike  className='text-[1.5rem] w-fit' onClick={handleLike}/>}
-          <BiComment className='ml-2 mt-1' /> 
+          <BiComment className='ml-2 mt-1' onClick={()=>setIsCommentOpen(!isCommentOpen)}/> 
+            <p className="text-[16px] mt-[2px] ml-1">0</p>
     </span>
 
-    <CommentSection pictureId={selectedPicture.id}/>
+          {
+            isCommentOpen && <CommentSection pictureId={selectedPicture.id}/>
+          }
    
     </div>
   )

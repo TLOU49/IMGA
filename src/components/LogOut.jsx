@@ -4,7 +4,6 @@ import Logo from '../assets/Logo-white.png'
 
 const LogOut = () => {
   return (
-    <>
         <div className="bg-gray-300 ml-[24rem] h-screen flex items-center">
 
         <div className="bg-white h-[17rem] shadow-sm shadow-black pt-2 text-center items-center flex flex-col  w-1/2 ml-[15rem]">
@@ -19,7 +18,6 @@ const LogOut = () => {
       </span>
         </div>
     </div>
-    </>
   )
 }
 

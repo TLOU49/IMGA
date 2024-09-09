@@ -40,7 +40,7 @@ const CreateComment = ({setIsCommentOpen, id}) => {
 
   return (
   
-        <form className="flex flex-col absolute items-center w-[28rem] h-[12rem] border-text_blue border-2 rounded mt-2">
+        <form className="flex flex-col absolute  items-center w-[28rem] h-[12rem] border-text_blue border-2 rounded mt-[5.5rem] ml-2">
                 <IoCloseSharp className='absolute right-0 m-2 text-[1.2rem] cursor-pointer bg-gray-100 rounded-full' onClick={()=> {setIsCommentOpen(false)}}/>
 
         <textarea type="text" className='h-[9rem] px-2 text-[14px] text-gray-600 w-full border-0 outline-0' value={content} onChange={e => setComment(e.target.value)}/>

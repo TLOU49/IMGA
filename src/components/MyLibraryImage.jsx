@@ -28,7 +28,6 @@ export const MyLibraryImage = ({setIsEditModal, handleEdit}) => {
           'Authorization': `Bearer ${token}`
         }
       });
-      console.log(response.data);
       
       const userImages = response.data.items.filter(image => image.userId === userId);
 
