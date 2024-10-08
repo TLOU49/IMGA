@@ -5,6 +5,8 @@ import { MdLogout } from "react-icons/md";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logout } from '../Context/useAuth';
 import Logo from '../assets/Logo.png'
+import { MdOutlineImage } from "react-icons/md";
+import { FaRegSquare } from "react-icons/fa6";
 
 export const TaskBar = () => {
   const location = useLocation();
@@ -28,18 +30,29 @@ export const TaskBar = () => {
   };
   return (
     <>
-        <div className="bg-iga_blue absolute text-white h-full w-[24rem] font-bodyFont pt-1 pl-3">
-            {/* <h1 className="text-[2.5rem] font-semibold ">Logo</h1> */}
-            <img src={Logo} alt="logo" width={150} className='ml-[4rem] mt-8' />
+        <div className="bg-iga_blue absolute text-white h-screen w-1/5 font-bodyFont pt-1 pl-3">
+            <img src={Logo} alt="logo" className='ml-0 md:ml-6 lgl:ml-10 mt-8 w-[5rem] mdl:w-[7rem] lg:w-[9rem]' />
 
-            <div className="text-[1.3rem] font-semibold mt-20 ">
+            <div className="text-[1.3rem] font-semibold mt-10 ">
               <Link to='/home'>
-            <span className={`flex flex-row  mr-3 h-[5rem] pt-7 rounded-md pl-3 ${handleBg('/home') }`}><GoHome className='mr-3 mt-1 font-bold'/><p className="">Home</p></span>
+            <span className={`flex flex-col md:flex-row  mr-1 md:mr-3 h-[5rem] mt-2 pt-5 rounded-md pl-3 ${handleBg('/home') }`}><GoHome className='mr-3 ml-3 md:ml-0 mt-1 font-bold'/><p className="text-[13px] ml-3 md:ml-0 md:text-[1.3rem]">Home</p></span>
               </Link>
+
             <Link to='/upload'>
-            <span className={`flex flex-row mr-3 h-[5rem] pt-7  rounded-md mt-2 pl-3 ${handleBg('/upload')}`}  ><TbCameraPlus className='mr-3 mt-1'/><p className="">Image Upload</p></span>
+            <span className={`flex flex-col md:flex-row mr-1 md:mr-3 h-[5rem] mt-2 pt-5 rounded-md mt-2 pl-3 ${handleBg('/upload')}`}><TbCameraPlus className='mr-3 ml-3 md:ml-0 mt-1'/><p className="text-[11px] md:text-[1.3rem]">Image Upload</p></span>
             </Link>
-            <span className="flex flex-row pl-3 absolute bottom-3 cursor-pointer" onClick={handleLogout}><MdLogout className='mr-3 mt-1'/><p className="">Logout</p></span>
+
+            <Link to='/library'>
+            <div className={`flex flex-col md:flex-row mr-1 md:mr-3 h-[5rem] mt-2 pt-5 rounded-md pl-3 ${handleBg('/library') }`}>
+            <span className="flex mr-3">
+            <MdOutlineImage className=' mt-1 font-bold ml-1 md:ml-0'/>
+            </span>
+
+            <p className="text-[11px] md:text-[1.3rem]">My Library</p>
+            </div>
+              </Link>
+              
+            <span className="flex flex-col md:flex-row pl-3 absolute bottom-3 cursor-pointer" onClick={handleLogout}><MdLogout className='mr-3 mt-1 ml-2 md:ml-0'/><p className="text-[11px] md:text-[1.3rem]">Logout</p></span>
             </div>
         </div>
     </>

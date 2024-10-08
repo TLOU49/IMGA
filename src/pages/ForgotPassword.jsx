@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import BG from '../assets/1.jfif'
 import { toast, ToastContainer } from 'react-toastify'
 
@@ -46,19 +46,22 @@ export const ForgotPassword = () => {
     <div className='bg-white text-text_blue flex flex-row'>
 
         <form className="flex flex-col w-3/6 pl-[5rem] pt-[6rem]" onSubmit={handleForgotPassword}>
-            <h1 className="text-[2rem] font-bold">Reset Password</h1>
+            <h1 className="text-[2rem] font-bold">Recover Password</h1>
 
             {/*  */}
-        <div className="flex flex-col mt-[2.5rem]">
+        <div className="flex flex-col mt-[2.5rem] w-full">
             <span className="">
                 <p className="text-[14px] font-semibold ">Email Address</p>
                 <input type="text" placeholder='Enter Email' className='border-[1px] border-text_blue rounded text-[13px] h-[2rem] w-4/5 px-2 outline-0' value={email} onChange={e => setEmail(e.target.value)}/>
             </span>
+            <Link to='/login' className='ml-auto'>
+            <p className=" mr-[6rem] text-[11px] pt-1">Back to Login</p>
+            </Link>
             
             </div>
 
             {/* Reset Button */}
-            <button type='submit' className="bg-iga_blue w-4/5 h-[2.5rem] text-blue-100 font-medium text-[15px] mt-10 rounded" >Reset Password</button>
+            <button type='submit' className="bg-iga_blue w-4/5 h-[3rem] text-blue-100 font-medium text-[15px] mt-16 rounded" >Recover Password</button>
             {error && (
           <div className="text-red-500 mt-2">
             {typeof error === 'string' ? error : JSON.stringify(error.response, null, 2)}

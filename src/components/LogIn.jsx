@@ -4,6 +4,8 @@ import { FaUser   } from "react-icons/fa";
 import { MdLock } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import { api } from '../Context/useAuth';
 
 const LogIn = () => {   
         const [username, setUsername] = useState('');
@@ -13,7 +15,8 @@ const LogIn = () => {
         const [lockoutMessage, setLockoutMessage] = useState('');
         const [remainingLockoutTime, setRemainingLockoutTime] = useState(0);
         const [isLockedOut, setIsLockedOut] = useState(false);
-      
+        const [countdown, setCountdown] = useState(120);
+        const [isLoginSuccessful, setIsLoginSuccessful] =useState(false);
         const navigate = useNavigate();
 
         const handleLogin = (e) => {
@@ -24,20 +27,24 @@ const LogIn = () => {
             password
           };
       
-          axios.post('http://localhost:5204/backend/account/login', data,{
+          axios.post(`${api}/account/login`, data,{
             headers: {
               'Content-Type': 'application/json'
             }
           })
           .then(response => {
-            console.log('Response:', response.data);
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('userName', response.data.userName);
-            navigate('/home');
+            localStorage.setItem('userId', response.data.userId);
+            toast('OTP sent to your email. Please enter the OTP to complete the login');
+            setIsLoginSuccessful(true);
+           localStorage.setItem('countdown', countdown);
+           
+            setTimeout(() => {
+              navigate('/2fa')
+          }, 3000);
           })
           .catch(error => {
             console.error('Error:', error);
-      
+            toast(error.response.data)
             if(error.response){
               setError(error.response.data);
               if(error.response.data.remainingLockoutTime)
@@ -52,6 +59,21 @@ const LogIn = () => {
             }
           })
         };
+
+        useEffect(() => {
+          let timer;
+          if(isLoginSuccessful && countdown >0)
+          {
+            timer = setInterval(() => {
+              setCountdown((prevCountdown)=> prevCountdown - 1);
+            }, 1000);
+          }else if(countdown === 0){
+            clearInterval(timer);
+          }
+        
+          return () => { clearInterval(timer)};
+        }, [isLoginSuccessful, countdown])
+        
 
         useEffect(() => {
           let timer;
@@ -72,16 +94,17 @@ const LogIn = () => {
         
   return (
     <div className='LogIn w-screen h-screen flex justify-center opacity-95 font-bodyFont'>
-       <div className="flex flex-col text-text_blue bg-white w-1/2 sm:h-4/6 md:h-3/5 mt-36 rounded-md place-items-center opacity-100">
+              <ToastContainer/>
+       <div className="flex flex-col text-text_blue bg-white w-1/2 xl:w-2/5 h-fit mt-36 rounded-md place-items-center opacity-100">
        {!isLockedOut ? (
         <span className="flex flex-col w-full align-center justify-center place-items-center w-full">
-        <h3 className="text-[2.2rem] flex flex-col font-bold  text-center pt-[3rem]">
+        <h3 className="text-[1.8rem] md:text-[2.2rem] flex flex-col font-bold  text-center pt-[3rem]">
             <p>Image Gallery App</p>
             <p>Login</p>
         </h3>
 
           {/* INPUTS */}
-        <div className='w-1/2 mt-[2rem] flex flex-col '>
+        <div className='w-3/5 mt-[2rem] flex flex-col '>
         {/* INPUT USERNAME */}
     <span className="w-full">
         <p className="text-[11px] font-extrabold py-1">Username</p>
@@ -112,7 +135,7 @@ const LogIn = () => {
     </div>
 
     {/* BUTTON */}
-    <button type='submit' className="bg-iga_blue w-1/2 rounded text-white align-center justify-center mt-[3rem] h-[2.7rem]" onClick={handleLogin}>
+    <button type='submit' className="bg-iga_blue w-3/5 rounded text-white align-center justify-center mt-[3rem] h-[2.7rem]" onClick={handleLogin}>
     <p className='text-[16px] font-normal'>Login</p>
     </button>
     {error && (
@@ -120,6 +143,7 @@ const LogIn = () => {
   {typeof error === 'string' ? error : <pre>{JSON.stringify(error, null, 2)}</pre>}
 </div> 
 )}
+
     <span className="text-[10px] mt-[2rem] mb-[3rem] font-semibold flex flex-row ">New to this platform? 
         <Link to='/register'>
         <p className="px-1 font-black">Register</p> 

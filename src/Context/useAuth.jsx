@@ -24,3 +24,4 @@ export const logout = (navigate) => {
     navigate('/logout');
   };
   
+export const api = 'http://localhost:5204/backend'
