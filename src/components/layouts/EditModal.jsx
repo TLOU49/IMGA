@@ -35,8 +35,6 @@ export const EditModal = ({setIsEditModal, editImage}) => {
             console.log('Edit successful:', response.data);
             toast.success('Edit successful!');
             setIsEditModal(false);
-            // setTimeout(() => {
-                // }, 5000);
             } catch (error) {
                 
                 if(error.response){

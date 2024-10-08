@@ -17,12 +17,10 @@ import { TwoFactorAuthPage } from './pages/TwoFactorAuthPage.jsx'
 import { LoggedInResetPassword } from './pages/LoggedInResetPassword.jsx'
 
 const isAuthenticated = !!localStorage.getItem('token');
-// https://7hd7cmzs-5173.euw.devtunnels.ms/
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
     < Route element={<MainLayout/>} >
-    {/* <Route path='/home' index element={isAuthenticated ? <Home/> : <Navigate to="/login"/>}/> */}
     <Route path='/home' index element={<Home/>}/>
     <Route path='/upload' element={<ImageUpload/>}/>
     <Route path='/logout' element={<LogOut/>}/>

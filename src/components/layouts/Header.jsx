@@ -29,7 +29,7 @@ useEffect(() => {
   return () => {
     document.removeEventListener('mousedown', handleClickOutside )
   }
-}, [])
+}, []);
 
   return (
     <div className='h-20 ml-auto w-4/5 text-text_blue shadow-md shadow-gray-500 flex justify-between pr-6 pt-[1rem] md:pt-0'>

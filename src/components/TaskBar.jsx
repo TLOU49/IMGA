@@ -31,7 +31,6 @@ export const TaskBar = () => {
   return (
     <>
         <div className="bg-iga_blue absolute text-white h-screen w-1/5 font-bodyFont pt-1 pl-3">
-            {/* <h1 className="text-[2.5rem] font-semibold ">Logo</h1> */}
             <img src={Logo} alt="logo" className='ml-0 md:ml-6 lgl:ml-10 mt-8 w-[5rem] mdl:w-[7rem] lg:w-[9rem]' />
 
             <div className="text-[1.3rem] font-semibold mt-10 ">

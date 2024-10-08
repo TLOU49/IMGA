@@ -83,7 +83,6 @@ const RegisterProfile = () => {
             {typeof error === 'string' ? error.response : JSON.stringify(error, null, 2)}
           </div>
         )}
-        {/* {error && <p className="text-red-500 mt-2">{error}</p>} */}
       <p className="text-center mr-[3rem] w-3/4 mt-3 text-black text-[13px]">or</p>
 
       <span className="flex flex-row shadow-md text-center items-center py-2 justify-center shadow-gray-400 w-4/5 mt-1">
